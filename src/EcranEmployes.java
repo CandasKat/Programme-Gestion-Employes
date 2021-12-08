@@ -1,143 +1,116 @@
 import javax.swing.*;
-import javax.swing.event.CellEditorListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.EventObject;
 
-public class EcranEmployes extends JDialog implements CellEditor{
-    private JTable tableEmployes = new JTable();
-    private JPanel panel1;
-    private JButton button1;
-    private JTextField chercher;
+public class EcranConnexion extends JFrame{
+    JFrame frame = new JFrame("Connexion");
+    JPanel panel1 = new JPanel();
+    JLabel label1 = new JLabel("Utilisateur : ");
+    JLabel label2 = new JLabel("Mot de Passe : ");
+    JTextField utilisateurChamp = new JTextField();
+    JPasswordField passwordChamp = new JPasswordField();
+    JLabel messageChamp = new JLabel();
+    JCheckBox checkBox = new JCheckBox("Afficher mot de passe");
+    JButton connexionButton = new JButton("Connection");
 
+    public EcranConnexion() {
+        frame.setSize(500, 300);
+        frame.setLayout(null);
+        panel1.setLayout(null);
+        frame.setContentPane(panel1);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
 
+        //label Utilisateur
+        panel1.add(label1);
+        label1.setBounds(50, 45, 100, 25);
+        label1.setSize(100,25);
 
+        //texField Utilisateur
+        panel1.add(utilisateurChamp);
+        utilisateurChamp.setBounds(150, 45, 295, 25);
+        utilisateurChamp.setSize(295,25);
 
+        //label mot de passe
+        panel1.add(label2);
+        label2.setBounds(50, 80, 100, 25);
+        label2.setSize(100,25);
 
+        //password field
+        panel1.add(passwordChamp);
+        passwordChamp.setBounds(150, 80, 295, 25);
+        passwordChamp.setSize(295,25);
 
+        //checkbox
+        panel1.add(checkBox);
+        checkBox.setBounds(50, 115, 180, 25);
+        checkBox.setSize(180,25);
 
+        //label mot de passe
+        panel1.add(messageChamp);
+        messageChamp.setBounds(50, 150, 400, 25);
+        messageChamp.setSize(400,25);
+        messageChamp.setForeground(Color.RED);
+        messageChamp.setText("");
 
+        //connection button
+        panel1.add(connexionButton);
+        connexionButton.setBounds(125, 185, 250, 25);
+        connexionButton.setSize(250,25);
 
+        //checkbox utilisation
+        checkBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (checkBox.isSelected()){
+                    passwordChamp.setEchoChar((char) 0);
+                }
+                else {
+                    passwordChamp.setEchoChar('*');
+                }
+            }
+        });
 
-    public void dynamiqueChercher(String cherche){
-        TableRowSorter<DefaultTableModel> tr =new TableRowSorter<DefaultTableModel>(modelim);
-        tableEmployes.setRowSorter(tr);
-        tr.setRowFilter(RowFilter.regexFilter(cherche));
-    }
+        connexionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ActionEmployes actionEmployes = new ActionEmployes();
+                messageChamp.setText("");
 
-    DefaultTableModel modelim = new DefaultTableModel();
-
-    @Override
-    public Object getCellEditorValue() {
-        return null;
-    }
-
-    @Override
-    public boolean isCellEditable(EventObject anEvent) {
-        return false;
-    }
-
-    @Override
-    public boolean shouldSelectCell(EventObject anEvent) {
-        return false;
-    }
-
-    @Override
-    public boolean stopCellEditing() {
-        return false;
-    }
-
-    @Override
-    public void cancelCellEditing() {
-
-    }
-
-    @Override
-    public void addCellEditorListener(CellEditorListener l) {
-
-    }
-
-    @Override
-    public void removeCellEditorListener(CellEditorListener l) {
-
-    }
-
-
-    Object[] columns = {"id", "prénom", "nom", "departement", "salaire"};
-    Object[] rows = new Object[5];
-
-    ActionEmployes actions = new ActionEmployes();
-
-
-    public EcranEmployes() {
-
-        JFrame jf = new JFrame("Table d'employes");
-        jf.setLayout(null);
-
-        JTextField cherheField = new JTextField("");
-        cherheField.setBounds(25,20,450,30);
-        cherheField.setSize(450,30);
-        cherheField.setLocation(25,20);
-        jf.add(cherheField);
-
-
-        JButton chercheButton = new JButton("Cherche");
-        chercheButton.setBounds(530,20,100,30);
-        chercheButton.setSize(100,30);
-        chercheButton.setLocation(530, 20);
+                String utilisateur = utilisateurChamp.getText();
+                String password = new String(passwordChamp.getPassword());
 
 
-        jf.add(chercheButton);
+                boolean connexionReussi = actionEmployes.connexion(utilisateur, password);
 
-        modelim.setColumnIdentifiers(columns);
+                if (connexionReussi){
+                    setVisible(false);
+                    EcranEmployes ecranEmployes = new EcranEmployes();
 
+                    ecranEmployes.setVisible(true);
+                    //System.exit(0);
+                }
+                else messageChamp.setText("Échec de la connexion... Veuillez réessayer");
+            }
+        });
+        connexionButton.addKeyListener(new KeyAdapter() {
 
-        JScrollPane sp = new JScrollPane();
-        sp.setSize(650,500);
-        sp.setLocation(25,100);
-        sp.setViewportView(tableEmployes);
+            @Override
+            public void keyPressed(KeyEvent e) {
+                EcranConnexion ecranConnexion = new EcranConnexion();
+                int touch = e.getKeyCode();
+                if (touch == KeyEvent.VK_ENTER){
+                    ecranConnexion.connexionButton.doClick();
+                }
 
-        jf.add(sp);
-
-
-        jf.setSize(700,650);
-        jf.setLocationRelativeTo(null);
-        jf.setVisible(true);
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        ResultSet rs = actions.yap();
-
-
-        try {
-            while (rs.next()){
-                rows[0] = rs.getString("id");
-                rows[1] = rs.getString("ad");
-                rows[2] = rs.getString("soyad");
-                rows[3] = rs.getString("departman");
-                rows[4] = rs.getString("maas");
-                modelim.addRow(rows);
 
             }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-
-
-        tableEmployes.setEnabled(false);
-        tableEmployes.setModel(modelim);
-
+        });
     }
-
 
 
 }
-
