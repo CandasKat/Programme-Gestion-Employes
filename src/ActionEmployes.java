@@ -1,5 +1,4 @@
 
-
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.*;
@@ -21,14 +20,45 @@ public class ActionEmployes {
     static ResultSet yap(){
         try {
             statement = con.createStatement();
-            String sorgu = "Select * From calisanlar";
+            String interrogation = "Select * From calisanlar";
             ResultSet rs;
-            rs = statement.executeQuery(sorgu);
+
+            rs = statement.executeQuery(interrogation);
             return rs;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void supprimer(int id){
+        String interrogation = "Delete from calisanlar where id = ?";
+        try {
+            preparedStatement = con.prepareStatement(interrogation);
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void metJourEmployes (int id, String nouvelNom, String nouvelPrenom, String nouvelDpartement, String nouvelSalaire){
+        String interrogation = "Update calisanlar set soyad = ?, ad = ?, departman = ?, maas = ? where id = ?";
+
+        try {
+            preparedStatement = con.prepareStatement(interrogation);
+            preparedStatement.setString(1,nouvelNom);
+            preparedStatement.setString(2,nouvelPrenom);
+            preparedStatement.setString(3,nouvelDpartement);
+            preparedStatement.setString(4,nouvelSalaire);
+
+            preparedStatement.setInt(5,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void ajoutePersonne(String nom, String prenom, String departement, String salaire){
@@ -84,4 +114,3 @@ public class ActionEmployes {
 
 
 }
-
