@@ -1,5 +1,5 @@
-# ProgrammeGestionEmployes
-This is a project for managing employees and staff information. 
+# ProgrammeGestionEmployes<br>
+This is a project for managing employees and staff information.<br>
 In this phase, the project consists of two sections. The first of these sections is the administrator login section: 
 -The section that connects the database to the correct username and password entry. 
 -Once you log in with the correct username and password, the second section is entered. The second section is where the employee table is located: 
