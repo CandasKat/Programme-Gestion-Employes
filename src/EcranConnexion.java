@@ -24,6 +24,7 @@ public class EcranConnexion extends JFrame{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+        frame.getRootPane().setDefaultButton(connexionButton);
 
         //label Utilisateur
         panel1.add(label1);
