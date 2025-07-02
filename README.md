@@ -1,15 +1,82 @@
-# ProgrammeGestionEmployes<br>
-This is a project for managing employees and staff information.<br>
-In this phase, the project consists of two sections. The first of these sections is the administrator login section:<br> 
--The section that connects the database to the correct username and password entry.<br> 
--Once you log in with the correct username and password, the second section is entered. The second section is where the employee table is located: <br>
--With the dynamic search function it is possible to quickly find the employees in the data table by their ID, first name, last name, department. <br>
-It is even possible to search by salary. <br>
--Adding new employees to the table, editing employee information or deleting employees are other functions. <br>
-You can find the database properties in the folder database.java. Methods that allow database connection and operation on the table are in the class 'ActionEmployes.java'. <br>
-The class 'EcranConnexion.java' contains the login process, which also contains the main method. The design of the login screen was made in this folder as well. <br>
-The class 'Employes.java' contains information like ID, first name, last name, department name and salary for employees only.<br>
-Finally, in the class 'EcranEmployes.java', information is taken from the database and displayed in the table jframe.<br>
-In addition, this is the folder where the operations and table design are done on the table. To make a MySQL connection, <br>
-you need to download xampp and make the required database connection called 'demo'. You should create a database and a file 'demo.sql' in the mysql folder. <br>
-You need to import it. This program was created by Candas Kat in December 2021.<br>
+# Employee Management Program
+
+A basic Java Swing application to manage employee records using a manually configured MySQL database.  
+This project was created as a personal Java learning exercise.
+
+## 🔧 Features
+
+- Admin login with hardcoded credentials  
+- View, search, add, edit, and delete employee records  
+- Simple GUI built with Java Swing  
+- MySQL database connection via JDBC
+
+## 📦 Requirements
+
+- Java JDK 11 or higher  
+- MySQL Server (running on localhost, port 3306)  
+- A MySQL user with access to a database named `demo`
+
+## 🗄️ Database Setup
+
+1. Open a MySQL client and execute:
+   ```sql
+   CREATE DATABASE demo;
+   USE demo;
+
+   CREATE TABLE employes (
+     id INT PRIMARY KEY AUTO_INCREMENT,
+     prenom VARCHAR(50),
+     nom VARCHAR(50),
+     departement VARCHAR(50),
+     salaire DOUBLE
+   );
+
+   INSERT INTO employes (prenom, nom, departement, salaire) VALUES
+     ('Alice', 'Durand', 'HR', 4500),
+     ('Bob', 'Martin', 'IT', 5200),
+     ('Celine', 'Petit', 'Sales', 4800);
+    ```
+2. No password authentication is implemented — the app uses hardcoded credentials (admin / admin123).
+
+## ▶️ Running the Program
+
+1. Clone the repository:
+
+  ```bash
+  git clone https://github.com/CandasKat/Programme-Gestion-Employes.git
+  cd Programme-Gestion-Employes
+  ```
+
+2. Compile the source code manually:
+
+  ```bash
+  javac -d out src/com/candaskat/*.java
+  ```
+
+3. Run the application:
+
+  ```bash
+  java -cp out com.candaskat.EcranConnexion
+  ```
+
+## 📁 Project Structure
+
+  ```bash
+  ├── src/
+  │   └── com/candaskat/
+  │       ├── ActionEmployes.java
+  │       ├── EcranConnexion.java
+  │       ├── EcranEmployes.java
+  │       └── Employes.java
+  ├── demo.sql      # SQL dump (optional)
+  ├── out/          # Compiled classes
+  └── README.md
+  ```
+
+## 💡 Notes
+
+* This project does not use build tools like Maven or Gradle.
+* Database connection is handled via JDBC.
+* The focus was on practicing core Java, Swing, and SQL — all setup is done manually.
+
+
